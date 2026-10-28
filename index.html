@@ -374,6 +374,25 @@ h2.sec{font-size:var(--fs-title);font-weight:var(--fw-semibold);letter-spacing:v
 .nowbar .chip{background:rgba(255,255,255,.2);color:#fff}
 .nowbar .sp{flex:1}
 
+/* ---- three-choice scorecard ---- */
+.prog{margin:0 0 8px}.prog .track{margin:6px 0}.prog .track>i{background:var(--surface-brand)}
+.prog-row{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:var(--fs-body-sm);color:var(--text-muted)}
+.crit-main{display:flex;gap:var(--space-4);align-items:center;flex-wrap:wrap;justify-content:space-between}
+.crit-t{flex:1;min-width:210px}
+.crit-t .nm{font-weight:var(--fw-semibold);color:var(--text-primary)}
+.crit-t .hint{font-size:var(--fs-body-sm);color:var(--text-muted);margin-top:2px}
+.crit-meta{display:flex;gap:8px;align-items:center;margin-top:8px}
+.nabtn{border:0;background:transparent;color:var(--text-muted);font:var(--fw-medium) var(--fs-micro)/1 var(--font-body);padding:6px 8px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--border-default)}
+.nabtn[aria-pressed="true"]{background:var(--soft-grey-p1);color:var(--text-primary)}
+.rate{display:inline-flex;gap:4px;padding:4px;background:var(--soft-grey-p1);border-radius:var(--radius-pill);max-width:100%}
+.rate button{border:0;background:transparent;border-radius:var(--radius-pill);height:42px;padding:0 14px;display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font:var(--fw-semibold) var(--fs-body-sm)/1 var(--font-body);white-space:nowrap;cursor:pointer}
+.rate button small{font-weight:var(--fw-medium);opacity:.7}
+.rate button[aria-pressed="true"]{color:#fff;box-shadow:var(--shadow-xs)}
+.rate button.r0[aria-pressed="true"]{background:var(--danger-accent)}
+.rate button.r1[aria-pressed="true"]{background:var(--warning-accent)}
+.rate button.r2[aria-pressed="true"]{background:var(--success-accent)}
+@media (max-width:560px){.rate{width:100%}.rate button{flex:1;justify-content:center;padding:0 6px;height:46px;flex-direction:column;gap:2px;font-size:var(--fs-caption)}}
+
 body{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}</script>
 <script type="text/plain" id="css-tv">
 html,body{height:100%;margin:0}
@@ -454,8 +473,7 @@ h1{font:var(--fw-bold) 5.6vh/1.05 var(--font-display);letter-spacing:var(--ls-di
   <div class="foot"><span id="upd"></span><span id="hint"></span></div>
 </div>
 </script>
-<script type="text/plain" id="js-i18n">/* Arabic UI strings. English text is the key; anything missing falls back to English.
-   Criteria wording stays in English on purpose: it mirrors the QA Guide advisors are scored against. */
+<script type="text/plain" id="js-i18n">/* Arabic UI strings. English text is the key; anything missing falls back to English. */
 window.QA_AR = {
   "1st": "الأول", "2nd": "الثاني", "3rd": "الثالث",
   "A criterion needs at least one department": "لازم المعيار يتطبق على قسم واحد على الأقل",
@@ -571,7 +589,53 @@ window.QA_AR = {
   "{n} turns": "{n} دور",
   "{p} of {n} scored it a pass": "{p} من {n} قيّموه ناجح",
   "Open": "فتح",
-  "1 turn": "دور واحد"
+  "1 turn": "دور واحد",
+  "1.1 Adhering to the first response policy": "1.1 الالتزام بسياسة الرد الأول",
+  "1.2 Opening & call purpose": "1.2 الافتتاح وسبب المكالمة",
+  "1.3 Customer/merchant verification & validation": "1.3 التحقق من هوية العميل/التاجر",
+  "2.1 Tone, attitude & professionalism": "2.1 النبرة والاتجاه والاحترافية",
+  "2.2 Active listening": "2.2 الاستماع الفعّال",
+  "2.3 Using the customer's/partner's name": "2.3 استخدام اسم العميل/الشريك",
+  "2.4 Using relevant language": "2.4 استخدام لغة مناسبة",
+  "2.5 Empathy & emotional awareness": "2.5 التعاطف والوعي بالمشاعر",
+  "2.6 Compensation": "2.6 التعويض",
+  "2.7 Ownership & de-escalation": "2.7 تحمّل المسؤولية وتهدئة الموقف",
+  "2.8 Hold handling": "2.8 التعامل مع الانتظار (Hold)",
+  "2.9 Avoiding dead air": "2.9 تجنّب الصمت",
+  "3.1 Identifying the issue & accurate resolution": "3.1 تحديد المشكلة وحلها بدقة",
+  "3.2 Case transfer to the relevant team": "3.2 تحويل الحالة للفريق المختص",
+  "3.3 Educating & setting expectations": "3.3 التوعية وتحديد التوقعات",
+  "3.4 Offering self-service guidance": "3.4 إرشاد العميل للخدمة الذاتية",
+  "3.5 Complete & accurate case logging": "3.5 توثيق الحالة بشكل كامل ودقيق",
+  "4.1 Friendly, confident closure": "4.1 إنهاء ودود وواثق",
+  "4.2 Informing about rating/feedback": "4.2 الإبلاغ عن التقييم/الاستبيان",
+  "Greeted within 4 seconds of the call starting?": "تمت التحية خلال 4 ثواني من بداية المكالمة؟",
+  "Used the agreed greeting, self-introduction and company name?": "استخدم التحية المعتمدة مع التعريف بنفسه واسم الشركة؟",
+  "Verified identity with every SOP question before helping?": "تحقق من الهوية بكل أسئلة الـ SOP قبل تقديم المساعدة؟",
+  "Polite, confident and positive tone throughout?": "نبرة مهذبة وواثقة وإيجابية طوال المكالمة؟",
+  "Listened without interrupting and acknowledged the issue?": "سمع من غير مقاطعة وأقرّ بالمشكلة؟",
+  "Asked for the name and used it naturally 2-3 times?": "سأل عن الاسم واستخدمه بشكل طبيعي 2-3 مرات؟",
+  "Matched the caller's language, no slang or competitor names?": "التزم بلغة المتصل من غير عامية أو أسماء منافسين؟",
+  "Showed empathy and apologized when needed?": "أظهر تعاطفاً واعتذر عند الحاجة؟",
+  "Applied compensation where the SOP allows?": "طبّق التعويض حيث يسمح الـ SOP؟",
+  "Took ownership, tried to retain and de-escalate?": "تحمّل المسؤولية وحاول الاحتفاظ بالعميل وتهدئته؟",
+  "Gave the reason, asked permission and stated the hold time?": "ذكر السبب واستأذن وحدد مدة الانتظار؟",
+  "No silence longer than 20 seconds?": "من غير صمت أطول من 20 ثانية؟",
+  "Asked the right questions and gave the correct solution?": "سأل الأسئلة الصحيحة وقدّم الحل الصحيح؟",
+  "Transferred to the right team with enough details?": "حوّل للفريق الصحيح ومعه تفاصيل كافية؟",
+  "Explained next steps and set expectations per SLA?": "وضّح الخطوات التالية وحدد التوقعات حسب الـ SLA؟",
+  "Guided toward self-service when applicable?": "وجّه للخدمة الذاتية عند الإمكان؟",
+  "Documented the case fully with the right classification?": "وثّق الحالة بالكامل وبالتصنيف الصحيح؟",
+  "Used the closing script, thanked and offered more help?": "استخدم سكريبت الإنهاء وشكر وعرض مساعدة إضافية؟",
+  "Informed about the survey before closing (and transferred to it on outbound)?": "أبلغ عن الاستبيان قبل الإنهاء (وحوّل له في المكالمات الصادرة)؟",
+  "Missed": "لم يتم",
+  "Needs work": "يحتاج تحسين",
+  "Perfect": "ممتاز",
+  "Rate each criterion: Missed, Needs work or Perfect. A Missed critical criterion fails the call.": "قيّم كل معيار: لم يتم، يحتاج تحسين أو ممتاز. لو معيار حرج اتقيّم «لم يتم» المكالمة بتعتبر راسبة.",
+  "{a}/{b} scored": "{a}/{b} اتقيّم",
+  "Mark the rest Perfect": "باقي المعايير ممتاز",
+  "Customer Care": "خدمة العملاء",
+  "Partner Care": "خدمة الشركاء"
 };
 </script>
 <script type="text/plain" id="js-shared">/* Shared scoring logic + i18n for the arena and the TV screen. */
@@ -605,6 +669,8 @@ window.QA_AR = {
     { id: 'c41', sec: 's4', n: '4.1 Friendly, confident closure', type: 'NC', w: 5, conds: ["Didn't follow the closing script or thank the caller", "Didn't offer further assistance before closing", "Didn't end the call after the caller went idle post-resolution"] },
     { id: 'c42', sec: 's4', n: '4.2 Informing about rating/feedback', type: 'NC', w: 7.5, conds: ["Didn't inform about the survey before closing", { t: "Didn't transfer the interaction to the survey", dir: 'out' }] }
   ];
+  var HINTS = {"c11": "Greeted within 4 seconds of the call starting?", "c12": "Used the agreed greeting, self-introduction and company name?", "c13": "Verified identity with every SOP question before helping?", "c21": "Polite, confident and positive tone throughout?", "c22": "Listened without interrupting and acknowledged the issue?", "c23": "Asked for the name and used it naturally 2-3 times?", "c24": "Matched the caller's language, no slang or competitor names?", "c25": "Showed empathy and apologized when needed?", "c26": "Applied compensation where the SOP allows?", "c27": "Took ownership, tried to retain and de-escalate?", "c28": "Gave the reason, asked permission and stated the hold time?", "c29": "No silence longer than 20 seconds?", "c31": "Asked the right questions and gave the correct solution?", "c32": "Transferred to the right team with enough details?", "c33": "Explained next steps and set expectations per SLA?", "c34": "Guided toward self-service when applicable?", "c35": "Documented the case fully with the right classification?", "c41": "Used the closing script, thanked and offered more help?", "c42": "Informed about the survey before closing (and transferred to it on outbound)?"};
+  DEF.forEach(function (c) { c.h = HINTS[c.id] || ''; });
   var DEF_LOBS = [{ id: 'customer-care', name: 'Customer Care' }, { id: 'partner-care', name: 'Partner Care' }];
 
   function r1(n) { return Math.round(n * 10) / 10; }
@@ -615,7 +681,7 @@ window.QA_AR = {
     var o = (sheet && sheet.over) || {};
     var base = DEF.map(function (c) {
       var v = o[c.id] || {};
-      return { id: c.id, sec: c.sec, n: c.n, type: v.type || c.type, w: v.w != null ? v.w : c.w, on: v.on !== false, dir: v.dir || 'both', lobs: v.lobs || [], custom: false,
+      return { id: c.id, sec: c.sec, n: c.n, h: c.h, type: v.type || c.type, w: v.w != null ? v.w : c.w, on: v.on !== false, dir: v.dir || 'both', lobs: v.lobs || [], custom: false,
         conds: c.conds.map(function (x) { return typeof x === 'string' ? { t: x } : x; }) };
     });
     var cu = ((sheet && sheet.custom) || []).map(function (c) {
@@ -729,7 +795,7 @@ function load() {
 }
 
 /* ---------- helpers ---------- */
-function lobName(id) { var l = S.room.lobs.find(function (x) { return x.id === id; }); return l ? l.name : T('Unassigned'); }
+function lobName(id) { var l = S.room.lobs.find(function (x) { return x.id === id; }); return l ? T(l.name) : T('Unassigned'); }
 function dirLabel(d) { return d === 'in' ? T('Inbound') : T('Outbound'); }
 function typeLabel(k) { return T(TYPES[k]); }
 function openTurn() { return S.turns.find(function (t) { return t.status === 'open'; }) || null; }
@@ -737,63 +803,83 @@ function lastClosed() { var c = S.turns.filter(function (t) { return t.status ==
 function critOf(turn) {
   return QA.allCrit({ over: {}, custom: [] }).filter(function (c) { return turn.crit.indexOf(c.id) > -1 && (c.dir === 'both' || c.dir === turn.dir); });
 }
-function critName(id) { var c = QA.DEF.find(function (x) { return x.id === id; }); return c ? c.n : id; }
+function critName(id) { var c = QA.DEF.find(function (x) { return x.id === id; }); return c ? T(c.n) : id; }
 function isTrainer() { return S.role === 'trainer'; }
 function joinUrl() { return QA.roomUrl(CODE).charAt(0) === '/' ? location.origin + QA.roomUrl(CODE) : new URL(QA.roomUrl(CODE), location.href).href; }
 function copy(text, msg) { try { navigator.clipboard.writeText(text).then(function () { toast(msg); }, function () { toast(text); }); } catch (e) { toast(text); } }
 
-/* ---------- scorecard ---------- */
+/* ---------- scorecard: three choices per criterion (Missed 0 / Needs work half / Perfect full) ---------- */
 function getForm(turn) {
   var f = forms[turn.id];
-  if (!f) { var m = turn.mine; f = forms[turn.id] = { checked: m && m.checked ? JSON.parse(JSON.stringify(m.checked)) : {}, na: {}, note: m ? (m.note || '') : '' }; ((m && m.na) || []).forEach(function (x) { f.na[x] = true; }); }
+  if (!f) {
+    var m = turn.mine, rate = {};
+    if (m && m.checked) Object.keys(m.checked).forEach(function (k) { var v = m.checked[k]; if (v === 0 || v === 1 || v === 2) rate[k] = v; });
+    f = forms[turn.id] = { rate: rate, na: {}, note: m ? (m.note || '') : '' };
+    ((m && m.na) || []).forEach(function (x) { f.na[x] = true; });
+  }
   return f;
 }
 function evalTurn(turn) {
-  var f = getForm(turn), crits = critOf(turn), earn = 0, tot = 0, fails = [], ev = [], cats = { CC: false, EC: false, BC: false };
+  var f = getForm(turn), crits = critOf(turn), earn = 0, tot = 0, fails = [], ev = [], cats = { CC: false, EC: false, BC: false }, done = 0, need = 0;
   crits.forEach(function (c) {
     if (f.na[c.id]) return;
-    ev.push(c.id); tot += c.w;
-    var ch = f.checked[c.id] || {}, failed = false;
-    c.conds.forEach(function (k, i) { if (ch[i] && (!k.dir || k.dir === turn.dir)) failed = true; });
-    if (failed) { fails.push(c.id); if (c.type !== 'NC') cats[c.type] = true; } else earn += c.w;
+    ev.push(c.id); tot += c.w; need++;
+    var v = f.rate[c.id];
+    if (v === 0 || v === 1 || v === 2) { done++; earn += c.w * v / 2; }
+    if (v === 0) { fails.push(c.id); if (c.type !== 'NC') cats[c.type] = true; }
   });
-  return { score: tot ? earn / tot * 100 : 0, pass: !(cats.CC || cats.EC || cats.BC), fails: fails, ev: ev, cats: cats, crits: crits };
+  return { score: tot ? earn / tot * 100 : 0, pass: !(cats.CC || cats.EC || cats.BC), fails: fails, ev: ev, cats: cats, crits: crits, done: done, need: need, complete: need > 0 && done === need };
+}
+function pts(n) { return String(Math.round(n * 100) / 100); }
+function critCard(c, f, turn) {
+  var v = f.rate[c.id], na = !!f.na[c.id];
+  var h = '<div class="crit' + (v === 0 ? ' failed' : '') + (na ? ' isna' : '') + '" data-crit="' + c.id + '"><div class="crit-main"><div class="crit-t"><div class="nm">' + esc(T(c.n)) + '</div>' + (c.h ? '<div class="hint">' + esc(T(c.h)) + '</div>' : '') + '<div class="crit-meta"><span class="chip ' + c.type.toLowerCase() + '">' + typeLabel(c.type) + '</span><button type="button" class="nabtn" data-na="' + c.id + '" aria-pressed="' + na + '">' + T('N/A') + '</button></div></div>';
+  if (!na) {
+    h += '<div class="rate" role="group" aria-label="' + esc(T(c.n)) + '">';
+    [[0, 'Missed', 0], [1, 'Needs work', c.w / 2], [2, 'Perfect', c.w]].forEach(function (o) {
+      h += '<button type="button" class="r' + o[0] + '" data-r="' + c.id + '" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '"><span>' + T(o[1]) + '</span><small class="num">' + pts(o[2]) + '</small></button>';
+    });
+    h += '</div>';
+  }
+  return h + '</div></div>';
 }
 function scorecardHtml(turn) {
-  var e = evalTurn(turn), f = getForm(turn), h = '<p class="note" style="margin:6px 0 0">' + T('Tick what went wrong in each criterion. Leave it clear if the advisor did it right. Mark N/A when a criterion did not apply to this call.') + '</p><div id="sc-body">';
+  var e = evalTurn(turn), f = getForm(turn), h = '<div id="sc-head">' + headHtml(e) + '</div><div id="sc-body">';
   SECTIONS.forEach(function (s) {
     var cs = e.crits.filter(function (c) { return c.sec === s.id; }); if (!cs.length) return;
     h += '<div class="secbar"><h3>' + esc(T(s.name)) + '</h3></div><div class="stack">';
-    cs.forEach(function (c) {
-      var failed = e.fails.indexOf(c.id) > -1, na = !!f.na[c.id];
-      h += '<div class="crit' + (failed ? ' failed' : '') + (na ? ' isna' : '') + '"><div class="crit-h"><span class="nm">' + esc(c.n) + '</span><span class="chip ' + c.type.toLowerCase() + '">' + typeLabel(c.type) + '</span><span class="chip num">' + c.w + '%</span><button type="button" class="btn small" data-na="' + c.id + '" aria-pressed="' + na + '">' + T('N/A') + '</button></div>';
-      if (!na) { h += '<div class="conds">'; c.conds.forEach(function (k, i) { if (k.dir && k.dir !== turn.dir) return; h += '<label><input type="checkbox" data-c="' + c.id + '" data-i="' + i + '"' + ((f.checked[c.id] || {})[i] ? ' checked' : '') + '><span>' + esc(k.t) + '</span></label>'; }); h += '</div>'; }
-      h += '</div>';
-    });
+    cs.forEach(function (c) { h += critCard(c, f, turn); });
     h += '</div>';
   });
   return h + '</div><div class="card" style="margin-top:24px"><span class="lbl">' + T('Coaching note (optional)') + '</span><textarea id="sc-note" placeholder="' + T('What to coach on next') + '">' + esc(f.note) + '</textarea></div>';
+}
+function headHtml(e) {
+  var p = e.need ? Math.round(e.done / e.need * 100) : 0;
+  return '<p class="note" style="margin:6px 0 10px">' + T('Rate each criterion: Missed, Needs work or Perfect. A Missed critical criterion fails the call.') + '</p><div class="prog"><div class="track"><i style="width:' + p + '%"></i></div><div class="prog-row"><span class="num">' + T('{a}/{b} scored', { a: e.done, b: e.need }) + '</span><button type="button" class="btn small" id="sc-allp">' + T('Mark the rest Perfect') + '</button></div></div>';
 }
 function bindScorecard(turn) {
   var f = getForm(turn);
   function dock() {
     var e = evalTurn(turn), why = [];['CC', 'EC', 'BC'].forEach(function (k) { if (e.cats[k]) why.push(typeLabel(k)); });
-    $('dockhost').innerHTML = '<div class="dock"><div class="in"><div><span class="lbl" style="margin:0">' + T('Score') + '</span><div class="score num">' + r1(e.score) + '</div></div><div><span class="chip ' + (e.pass ? 'pass' : 'fail') + '">' + (e.pass ? T('PASS') : T('FAIL')) + '</span><div class="note" style="margin-top:4px">' + (e.pass ? T('No critical errors') : T('Critical error: {t}', { t: why.join(', ') })) + '</div></div><span style="flex:1"></span><button class="btn primary" id="sc-send" type="button">' + (turn.mine ? T('Update my score') : T('Submit my score')) + '</button></div></div>';
+    $('dockhost').innerHTML = '<div class="dock"><div class="in"><div><span class="lbl" style="margin:0">' + T('Score') + '</span><div class="score num">' + r1(e.score) + '</div></div><div><span class="chip ' + (e.pass ? 'pass' : 'fail') + '">' + (e.pass ? T('PASS') : T('FAIL')) + '</span><div class="note" style="margin-top:4px">' + (e.pass ? T('No critical errors') : T('Critical error: {t}', { t: why.join(', ') })) + '</div></div><span style="flex:1"></span><button class="btn primary" id="sc-send" type="button"' + (e.complete ? '' : ' disabled') + '>' + (e.complete ? (turn.mine ? T('Update my score') : T('Submit my score')) : T('{a}/{b} scored', { a: e.done, b: e.need })) + '</button></div></div>';
     $('sc-send').onclick = function () {
       var b = $('sc-send'); b.disabled = true; var x = evalTurn(turn);
-      api('POST', '/eval', { tid: turn.id, score: r1(x.score), pass: x.pass, cats: x.cats, fails: x.fails, ev: x.ev, checked: f.checked, na: Object.keys(f.na).filter(function (k) { return f.na[k]; }), note: f.note })
+      api('POST', '/eval', { tid: turn.id, score: r1(x.score), pass: x.pass, cats: x.cats, fails: x.fails, ev: x.ev, checked: f.rate, na: Object.keys(f.na).filter(function (k) { return f.na[k]; }), note: f.note })
         .then(function () { toast(T('Score submitted')); return load(); }).catch(function (er) { b.disabled = false; werr(er); });
     };
   }
-  function paint() {
-    $('sc-body').innerHTML = scorecardHtml(turn).replace(/^.*?<div id="sc-body">/s, '').replace(/<\/div><div class="card"[\s\S]*$/, '');
-    wire();
+  function repaint(id) {
+    var c = evalTurn(turn).crits.find(function (x) { return x.id === id; }), el = document.querySelector('#sc-body [data-crit="' + id + '"]');
+    if (c && el) { var t = document.createElement('div'); t.innerHTML = critCard(c, f, turn); el.replaceWith(t.firstChild); }
+    $('sc-head').innerHTML = headHtml(evalTurn(turn));
+    wire(); dock();
   }
   function wire() {
-    document.querySelectorAll('#sc-body input[data-c]').forEach(function (x) {
-      x.onchange = function () { var c = x.dataset.c, m = f.checked[c] || (f.checked[c] = {}); m[x.dataset.i] = x.checked; x.closest('.crit').classList.toggle('failed', evalTurn(turn).fails.indexOf(c) > -1); dock(); };
+    document.querySelectorAll('#sc-body [data-r]').forEach(function (x) {
+      x.onclick = function () { f.rate[x.dataset.r] = parseInt(x.dataset.v, 10); repaint(x.dataset.r); };
     });
-    document.querySelectorAll('#sc-body [data-na]').forEach(function (x) { x.onclick = function () { f.na[x.dataset.na] = !f.na[x.dataset.na]; paint(); dock(); }; });
+    document.querySelectorAll('#sc-body [data-na]').forEach(function (x) { x.onclick = function () { var id = x.dataset.na; f.na[id] = !f.na[id]; if (f.na[id]) delete f.rate[id]; repaint(id); }; });
+    var all = $('sc-allp'); if (all) all.onclick = function () { evalTurn(turn).crits.forEach(function (c) { if (!f.na[c.id] && f.rate[c.id] == null) f.rate[c.id] = 2; }); $('sc-body').innerHTML = scorecardHtml(turn).replace(/^[\s\S]*?<div id="sc-body">/, '').replace(/<\/div><div class="card"[\s\S]*$/, ''); $('sc-head').innerHTML = headHtml(evalTurn(turn)); wire(); dock(); };
   }
   wire(); dock();
   var n = $('sc-note'); if (n) n.oninput = function () { f.note = n.value; };
@@ -850,11 +936,11 @@ function startForm() {
   S.participants.forEach(function (p) { h += '<button type="button" class="person' + (startSel.pid === p.id ? ' on' : '') + '" data-pick="' + p.id + '" style="padding-inline:14px;cursor:pointer">' + esc(p.name) + ' <small class="num">' + p.turns + '</small></button>'; });
   h += '</div><p class="note" style="margin:6px 0 0">' + T('The number is how many turns each person has had. The suggested next person has the fewest.') + '</p></div>';
   h += '<div class="formrow"><div><span class="lbl">' + T('Department') + '</span><select id="st-lob">';
-  S.room.lobs.forEach(function (l) { h += '<option value="' + esc(l.id) + '"' + (startSel.lob === l.id ? ' selected' : '') + '>' + esc(l.name) + '</option>'; });
+  S.room.lobs.forEach(function (l) { h += '<option value="' + esc(l.id) + '"' + (startSel.lob === l.id ? ' selected' : '') + '>' + esc(T(l.name)) + '</option>'; });
   h += '</select></div><div><span class="lbl">' + T('Call direction') + '</span><div class="seg"><button type="button" data-sd="in" aria-pressed="' + (startSel.dir === 'in') + '">' + T('Inbound') + '</button><button type="button" data-sd="out" aria-pressed="' + (startSel.dir === 'out') + '">' + T('Outbound') + '</button></div></div><div><span class="lbl">' + T('Scorecard') + '</span><div class="seg"><button type="button" data-sp="all" aria-pressed="' + (startSel.preset === 'all') + '">' + T('Full (20)') + '</button><button type="button" data-sp="short" aria-pressed="' + (startSel.preset === 'short') + '">' + T('Short (10)') + '</button><button type="button" data-sp="custom" aria-pressed="' + (startSel.preset === 'custom') + '">' + T('Pick') + '</button></div></div></div>';
   if (startSel.preset === 'custom') {
     if (!startSel.custom) startSel.custom = SHORT.slice();
-    h += '<div class="checks">'; QA.DEF.forEach(function (c) { h += '<label><input type="checkbox" data-cc="' + c.id + '"' + (startSel.custom.indexOf(c.id) > -1 ? ' checked' : '') + '>' + esc(c.n) + '</label>'; }); h += '</div>';
+    h += '<div class="checks">'; QA.DEF.forEach(function (c) { h += '<label><input type="checkbox" data-cc="' + c.id + '"' + (startSel.custom.indexOf(c.id) > -1 ? ' checked' : '') + '>' + esc(T(c.n)) + '</label>'; }); h += '</div>';
   }
   h += '<div class="formrow"><button class="btn primary" id="st-go" type="button">' + T('Start role-play') + '</button><div style="margin-inline-start:auto;display:flex;gap:8px;align-items:center"><input type="text" id="lob-new" placeholder="' + T('New department, e.g. Collections') + '" style="width:230px"><button class="btn small" id="lob-add" type="button">' + T('Add department') + '</button></div></div></div>';
   return h;
@@ -912,7 +998,7 @@ function standings(turns) {
 }
 function boardHtml() {
   var h = '<div class="bar"><div><span class="lbl">' + T('Department') + '</span><select id="f-lob"><option value="all">' + T('All departments') + '</option>';
-  S.room.lobs.forEach(function (l) { h += '<option value="' + esc(l.id) + '"' + (LF.lob === l.id ? ' selected' : '') + '>' + esc(l.name) + '</option>'; });
+  S.room.lobs.forEach(function (l) { h += '<option value="' + esc(l.id) + '"' + (LF.lob === l.id ? ' selected' : '') + '>' + esc(T(l.name)) + '</option>'; });
   h += '</select></div><div><span class="lbl">' + T('Direction') + '</span><div class="seg">';
   [['all', T('All')], ['in', T('Inbound')], ['out', T('Outbound')]].forEach(function (d) { h += '<button type="button" data-fd="' + d[0] + '" aria-pressed="' + (LF.dir === d[0]) + '">' + d[1] + '</button>'; });
   h += '</div></div></div>';
@@ -1012,7 +1098,7 @@ var P = new URLSearchParams(location.search);
 if (P.get('lang') === 'ar' || P.get('lang') === 'en') QA.setLang(P.get('lang'));
 var F = { lob: P.get('lob') || 'all', dir: P.get('dir') || 'all', max: Math.max(3, Math.min(12, parseInt(P.get('rows') || '8', 10) || 8)) };
 var S = null, $ = function (id) { return document.getElementById(id); };
-function lobName(id) { var l = S.room.lobs.find(function (x) { return x.id === id; }); return l ? l.name : ''; }
+function lobName(id) { var l = S.room.lobs.find(function (x) { return x.id === id; }); return l ? T(l.name) : ''; }
 function dl(d) { return d === 'in' ? T('Inbound') : T('Outbound'); }
 function standings(turns) {
   var m = {}; turns.forEach(function (t) { var a = m[t.pid] || (m[t.pid] = { name: t.pname, n: 0, sum: 0, pass: 0 }); a.n++; a.sum += t.score; if (t.pass) a.pass++; });
