@@ -392,6 +392,7 @@ h2.sec{font-size:var(--fs-title);font-weight:var(--fw-semibold);letter-spacing:v
 .rate button.r1[aria-pressed="true"]{background:var(--warning-accent)}
 .rate button.r2[aria-pressed="true"]{background:var(--success-accent)}
 @media (max-width:560px){.rate{width:100%}.rate button{flex:1;justify-content:center;padding:0 6px;height:46px;flex-direction:column;gap:2px;font-size:var(--fs-caption)}}
+.chip.out{background:var(--surface-brand-soft);color:var(--zingy-purple)}
 
 body{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}</script>
 <script type="text/plain" id="css-tv">
@@ -528,7 +529,7 @@ window.QA_AR = {
   "Enter your name": "اكتب اسمك",
   "Enter your name to join this room.": "اكتب اسمك عشان تدخل الروم.",
   "Every role-play you run is listed here.": "كل role-play هتعمله هيظهر هنا.",
-  "Full (20)": "كامل (20)",
+  "Full (19)": "كامل (19)",
   "Hide my scorecard": "إخفاء الـ Scorecard بتاعتي",
   "I'm a trainee": "أنا متدرب",
   "I'm the trainer": "أنا الترينر",
@@ -635,7 +636,11 @@ window.QA_AR = {
   "{a}/{b} scored": "{a}/{b} اتقيّم",
   "Mark the rest Perfect": "باقي المعايير ممتاز",
   "Customer Care": "خدمة العملاء",
-  "Partner Care": "خدمة الشركاء"
+  "Partner Care": "خدمة الشركاء",
+  "Used the agreed greeting, self-introduction and company name, and told the caller the call is recorded?": "استخدم التحية المعتمدة مع التعريف بنفسه واسم الشركة، وأبلغ المتصل إن المكالمة مسجّلة؟",
+  "Informed about the survey before closing and transferred the call to it?": "أبلغ عن الاستبيان قبل الإنهاء وحوّل المكالمة له؟",
+  "Outbound adds": "يضاف في الصادر",
+  "Informed about the survey before closing?": "أبلغ عن الاستبيان قبل الإنهاء؟"
 };
 </script>
 <script type="text/plain" id="js-shared">/* Shared scoring logic + i18n for the arena and the TV screen. */
@@ -669,8 +674,9 @@ window.QA_AR = {
     { id: 'c41', sec: 's4', n: '4.1 Friendly, confident closure', type: 'NC', w: 5, conds: ["Didn't follow the closing script or thank the caller", "Didn't offer further assistance before closing", "Didn't end the call after the caller went idle post-resolution"] },
     { id: 'c42', sec: 's4', n: '4.2 Informing about rating/feedback', type: 'NC', w: 7.5, conds: ["Didn't inform about the survey before closing", { t: "Didn't transfer the interaction to the survey", dir: 'out' }] }
   ];
-  var HINTS = {"c11": "Greeted within 4 seconds of the call starting?", "c12": "Used the agreed greeting, self-introduction and company name?", "c13": "Verified identity with every SOP question before helping?", "c21": "Polite, confident and positive tone throughout?", "c22": "Listened without interrupting and acknowledged the issue?", "c23": "Asked for the name and used it naturally 2-3 times?", "c24": "Matched the caller's language, no slang or competitor names?", "c25": "Showed empathy and apologized when needed?", "c26": "Applied compensation where the SOP allows?", "c27": "Took ownership, tried to retain and de-escalate?", "c28": "Gave the reason, asked permission and stated the hold time?", "c29": "No silence longer than 20 seconds?", "c31": "Asked the right questions and gave the correct solution?", "c32": "Transferred to the right team with enough details?", "c33": "Explained next steps and set expectations per SLA?", "c34": "Guided toward self-service when applicable?", "c35": "Documented the case fully with the right classification?", "c41": "Used the closing script, thanked and offered more help?", "c42": "Informed about the survey before closing (and transferred to it on outbound)?"};
-  DEF.forEach(function (c) { c.h = HINTS[c.id] || ''; });
+  var HINTS = {"c11": "Greeted within 4 seconds of the call starting?", "c12": "Used the agreed greeting, self-introduction and company name?", "c13": "Verified identity with every SOP question before helping?", "c21": "Polite, confident and positive tone throughout?", "c22": "Listened without interrupting and acknowledged the issue?", "c23": "Asked for the name and used it naturally 2-3 times?", "c24": "Matched the caller's language, no slang or competitor names?", "c25": "Showed empathy and apologized when needed?", "c26": "Applied compensation where the SOP allows?", "c27": "Took ownership, tried to retain and de-escalate?", "c28": "Gave the reason, asked permission and stated the hold time?", "c29": "No silence longer than 20 seconds?", "c31": "Asked the right questions and gave the correct solution?", "c32": "Transferred to the right team with enough details?", "c33": "Explained next steps and set expectations per SLA?", "c34": "Guided toward self-service when applicable?", "c35": "Documented the case fully with the right classification?", "c41": "Used the closing script, thanked and offered more help?", "c42": "Informed about the survey before closing?"};
+  var HINTS_OUT = {"c12": "Used the agreed greeting, self-introduction and company name, and told the caller the call is recorded?", "c42": "Informed about the survey before closing and transferred the call to it?"};
+  DEF.forEach(function (c) { c.h = HINTS[c.id] || ''; c.ho = HINTS_OUT[c.id] || ''; });
   var DEF_LOBS = [{ id: 'customer-care', name: 'Customer Care' }, { id: 'partner-care', name: 'Partner Care' }];
 
   function r1(n) { return Math.round(n * 10) / 10; }
@@ -681,7 +687,7 @@ window.QA_AR = {
     var o = (sheet && sheet.over) || {};
     var base = DEF.map(function (c) {
       var v = o[c.id] || {};
-      return { id: c.id, sec: c.sec, n: c.n, h: c.h, type: v.type || c.type, w: v.w != null ? v.w : c.w, on: v.on !== false, dir: v.dir || 'both', lobs: v.lobs || [], custom: false,
+      return { id: c.id, sec: c.sec, n: c.n, h: c.h, ho: c.ho, type: v.type || c.type, w: v.w != null ? v.w : c.w, on: v.on !== false, dir: v.dir || 'both', lobs: v.lobs || [], custom: false,
         conds: c.conds.map(function (x) { return typeof x === 'string' ? { t: x } : x; }) };
     });
     var cu = ((sheet && sheet.custom) || []).map(function (c) {
@@ -831,9 +837,10 @@ function evalTurn(turn) {
   return { score: tot ? earn / tot * 100 : 0, pass: !(cats.CC || cats.EC || cats.BC), fails: fails, ev: ev, cats: cats, crits: crits, done: done, need: need, complete: need > 0 && done === need };
 }
 function pts(n) { return String(Math.round(n * 100) / 100); }
+function hintOf(c, turn) { return turn.dir === 'out' && c.ho ? c.ho : c.h; }
 function critCard(c, f, turn) {
   var v = f.rate[c.id], na = !!f.na[c.id];
-  var h = '<div class="crit' + (v === 0 ? ' failed' : '') + (na ? ' isna' : '') + '" data-crit="' + c.id + '"><div class="crit-main"><div class="crit-t"><div class="nm">' + esc(T(c.n)) + '</div>' + (c.h ? '<div class="hint">' + esc(T(c.h)) + '</div>' : '') + '<div class="crit-meta"><span class="chip ' + c.type.toLowerCase() + '">' + typeLabel(c.type) + '</span><button type="button" class="nabtn" data-na="' + c.id + '" aria-pressed="' + na + '">' + T('N/A') + '</button></div></div>';
+  var h = '<div class="crit' + (v === 0 ? ' failed' : '') + (na ? ' isna' : '') + '" data-crit="' + c.id + '"><div class="crit-main"><div class="crit-t"><div class="nm">' + esc(T(c.n)) + '</div>' + (hintOf(c, turn) ? '<div class="hint">' + esc(T(hintOf(c, turn))) + '</div>' : '') + '<div class="crit-meta"><span class="chip ' + c.type.toLowerCase() + '">' + typeLabel(c.type) + '</span>' + (turn.dir === 'out' && c.ho ? '<span class="chip out">' + T('Outbound adds') + '</span>' : '') + '<button type="button" class="nabtn" data-na="' + c.id + '" aria-pressed="' + na + '">' + T('N/A') + '</button></div></div>';
   if (!na) {
     h += '<div class="rate" role="group" aria-label="' + esc(T(c.n)) + '">';
     [[0, 'Missed', 0], [1, 'Needs work', c.w / 2], [2, 'Perfect', c.w]].forEach(function (o) {
@@ -937,7 +944,7 @@ function startForm() {
   h += '</div><p class="note" style="margin:6px 0 0">' + T('The number is how many turns each person has had. The suggested next person has the fewest.') + '</p></div>';
   h += '<div class="formrow"><div><span class="lbl">' + T('Department') + '</span><select id="st-lob">';
   S.room.lobs.forEach(function (l) { h += '<option value="' + esc(l.id) + '"' + (startSel.lob === l.id ? ' selected' : '') + '>' + esc(T(l.name)) + '</option>'; });
-  h += '</select></div><div><span class="lbl">' + T('Call direction') + '</span><div class="seg"><button type="button" data-sd="in" aria-pressed="' + (startSel.dir === 'in') + '">' + T('Inbound') + '</button><button type="button" data-sd="out" aria-pressed="' + (startSel.dir === 'out') + '">' + T('Outbound') + '</button></div></div><div><span class="lbl">' + T('Scorecard') + '</span><div class="seg"><button type="button" data-sp="all" aria-pressed="' + (startSel.preset === 'all') + '">' + T('Full (20)') + '</button><button type="button" data-sp="short" aria-pressed="' + (startSel.preset === 'short') + '">' + T('Short (10)') + '</button><button type="button" data-sp="custom" aria-pressed="' + (startSel.preset === 'custom') + '">' + T('Pick') + '</button></div></div></div>';
+  h += '</select></div><div><span class="lbl">' + T('Call direction') + '</span><div class="seg"><button type="button" data-sd="in" aria-pressed="' + (startSel.dir === 'in') + '">' + T('Inbound') + '</button><button type="button" data-sd="out" aria-pressed="' + (startSel.dir === 'out') + '">' + T('Outbound') + '</button></div></div><div><span class="lbl">' + T('Scorecard') + '</span><div class="seg"><button type="button" data-sp="all" aria-pressed="' + (startSel.preset === 'all') + '">' + T('Full (19)') + '</button><button type="button" data-sp="short" aria-pressed="' + (startSel.preset === 'short') + '">' + T('Short (10)') + '</button><button type="button" data-sp="custom" aria-pressed="' + (startSel.preset === 'custom') + '">' + T('Pick') + '</button></div></div></div>';
   if (startSel.preset === 'custom') {
     if (!startSel.custom) startSel.custom = SHORT.slice();
     h += '<div class="checks">'; QA.DEF.forEach(function (c) { h += '<label><input type="checkbox" data-cc="' + c.id + '"' + (startSel.custom.indexOf(c.id) > -1 ? ' checked' : '') + '>' + esc(T(c.n)) + '</label>'; }); h += '</div>';
